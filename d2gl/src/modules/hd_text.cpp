@@ -588,11 +588,18 @@ void HDText::drawSubText(uint8_t fn)
 			y = (int*)(ptr + 0x6C);
 		}
 	} else if (fn == 2) {
-		str = (const wchar_t*)(ptr + 0x390);
-		color = (uint32_t*)(ptr + 0x74);
-		length = (int*)(ptr + 0x14);
-		x = (int*)(ptr + 0x1C);
-		y = (int*)(ptr + 0x4);
+		if (isVerMax(V_110)) {
+			// remove strange flickering text on some monster names (in Jail, act1)
+			length = (int*)(ptr + 0x14);
+			*length = 0;
+			return;
+		} else {
+			str = (const wchar_t*)(ptr + 0x390);
+			color = (uint32_t*)(ptr + 0x74);
+			length = (int*)(ptr + 0x14);
+			x = (int*)(ptr + 0x1C);
+			y = (int*)(ptr + 0x4);
+		}
 	} else {
 		str = (const wchar_t*)(ptr + 0x25C);
 		color = (uint32_t*)(ptr + 0x10);
