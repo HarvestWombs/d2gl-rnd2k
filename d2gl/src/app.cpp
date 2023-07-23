@@ -40,6 +40,24 @@ void checkCompatibilityMode()
 	}
 }
 
+DWORD RegQueryValueDWORD(HKEY hKey, LPCSTR szSubKey, LPCSTR szValueName, int nDefault)
+{
+	BYTE Data[4] = {0};
+	DWORD cbData = sizeof(DWORD);
+	HKEY phkResult = 0;
+
+	if (RegOpenKeyExA(hKey, szSubKey, 0, KEY_QUERY_VALUE, &phkResult)) {
+		return nDefault;
+	}
+
+	if (!RegQueryValueExA(phkResult, szValueName, 0, 0, Data, &cbData)) {
+		return *(DWORD*)Data;
+	}
+
+	RegCloseKey(phkResult);
+	return nDefault;
+}
+
 void dllAttach(HMODULE hmodule)
 {
 	std::string command_line = GetCommandLineA();
@@ -50,14 +68,34 @@ void dllAttach(HMODULE hmodule)
 		return;
 	}
 
-	bool flag_3dfx = command_line.find("-3dfx") != std::string::npos;
-	flag_3dfx = !flag_3dfx ? *d2::video_mode == 4 : flag_3dfx;
+	//bool flag_3dfx = command_line.find("-3dfx") != std::string::npos;
+	//flag_3dfx = !flag_3dfx ? *d2::video_mode == 4 : flag_3dfx;
 
-	if ((App.api == Api::Glide && !flag_3dfx) || (App.api == Api::DDraw && flag_3dfx))
+	//if ((App.api == Api::Glide && !flag_3dfx) || (App.api == Api::DDraw && flag_3dfx))
+
+	static char acPath[MAX_PATH] = { 0 };
+	char* pcTemp = 0;
+	GetModuleFileNameA(hmodule, acPath, sizeof(acPath));
+	pcTemp = strrchr(acPath, '\\');
+	if (pcTemp != 0) {
+		*(char*)(pcTemp) = 0;
+		if (RegQueryValueDWORD(HKEY_CURRENT_USER, "Software\\Blizzard Entertainment\\Diablo II\\VideoConfig", "Render", 3) == 3) {
+			App.api = Api::Glide;
+			// if called from ddraw.dll, return
+			if (!_stricmp((char*)(pcTemp + 1), "ddraw.dll")) 
+				return;
+		} else if (RegQueryValueDWORD(HKEY_CURRENT_USER, "Software\\Blizzard Entertainment\\Diablo II\\VideoConfig", "Render", 0) == 0) {
+			App.api = Api::DDraw;
+			// if called from glide3x.dll, return
+			if (!_stricmp((char*)(pcTemp + 1), "glide3x.dll")) 
 		return;
+		} else if (RegQueryValueDWORD(HKEY_CURRENT_USER, "Software\\Blizzard Entertainment\\Diablo II\\VideoConfig", "Render", 1) == 1) {
+			return; // if direct3d
+		}
+	}
 
 	if (command_line.find("-w ") != std::string::npos || command_line.find("-w") == command_line.length() - 2) {
-		if (App.api == Api::Glide && flag_3dfx) {
+		if (App.api == Api::Glide) {
 			MessageBoxA(NULL, "D2GL Glide wrapper is not compatible with \"-w\" flag.\nRemove \"-w\" flag and run game again.", "Unsupported argument detected!", MB_OK | MB_ICONWARNING);
 			exit(1);
 		}

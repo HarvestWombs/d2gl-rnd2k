@@ -74,5 +74,5 @@ void clearImage(ImageData& image);
 std::string saveScreenShot(uint8_t* data, int width, int height);
 
 void loadDlls(const std::string& dlls, bool late = false);
-
+HMODULE getOrLoadModule(LPCSTR module);
 }

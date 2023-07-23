@@ -87,7 +87,8 @@ FX_ENTRY void FX_CALL grLoadGammaTable(FxU32 nentries, FxU32* red, FxU32* green,
 
 FX_ENTRY void FX_CALL guGammaCorrectionRGB(FxFloat red, FxFloat green, FxFloat blue)
 {
-	GlideWrapper->guGammaCorrectionRGB(red, green, blue);
+	// in d2se environment cause crash
+	//GlideWrapper->guGammaCorrectionRGB(red, green, blue);
 }
 
 FX_ENTRY void FX_CALL grTexSource(GrChipID_t tmu, FxU32 startAddress, FxU32 evenOdd, GrTexInfo* info)
