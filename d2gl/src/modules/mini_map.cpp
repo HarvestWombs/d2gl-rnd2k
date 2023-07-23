@@ -1,4 +1,4 @@
-/*
+﻿/*
 	D2GL: Diablo 2 LoD Glide/DDraw to OpenGL Wrapper.
 	Copyright (C) 2023  Bayaraa
 
@@ -68,7 +68,7 @@ void MiniMap::draw()
 		if (App.hd_text.active) {
 			time_t now = time(0);
 			localtime_s(&gmt_time, &now);
-			swprintf_s(time_str, L" | �c\x34%.2d:%.2d", gmt_time.tm_hour, gmt_time.tm_min);
+			swprintf_s(time_str, L" | ÿc\x34%.2d:%.2d", gmt_time.tm_hour, gmt_time.tm_min);
 
 			const auto old_size = modules::HDText::Instance().getTextSize();
 			d2::setTextSizeHooked(19);
