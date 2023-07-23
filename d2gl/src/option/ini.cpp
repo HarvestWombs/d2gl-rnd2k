@@ -133,6 +133,11 @@ void saveIni()
 		"; Window size.\n"
 		"window_width=%d\n"
 		"window_height=%d\n\n"
+		"; Custom game size. Must be specified manually for mods\n"
+		"; with hardcoded ingame resolution, like MedianXL Sigma (1024x768).\n"
+		"; if values = 0, default size will be used\n"
+		"gamesize_custom_width=%d\n"
+		"gamesize_custom_height=%d\n\n"
 		"; Always centered window on launch.\n"
 		"; Window position (window_posx/window_posy) will be ignored.\n"
 		"centered_window=%s\n\n"
@@ -161,6 +166,8 @@ void saveIni()
 		boolString(App.window.fullscreen),
 		App.window.size.x,
 		App.window.size.y,
+		App.game.custom_size.x,
+		App.game.custom_size.y,
 		boolString(App.window.centered),
 		App.window.position.x,
 		App.window.position.y,
@@ -316,6 +323,9 @@ void loadIni()
 		App.window.size.y = getInt("Screen", "window_height", App.window.size.y, 600, App.desktop_resolution.w);
 		App.window.size_save = App.window.size;
 
+		App.game.custom_size.x = getInt("Screen", "gamesize_custom_width", App.game.custom_size.x, 0, App.desktop_resolution.z);
+		App.game.custom_size.y = getInt("Screen", "gamesize_custom_height", App.game.custom_size.y, 0, App.desktop_resolution.w);
+
 		App.window.centered = getBool("Screen", "centered_window", App.window.centered);
 		App.window.position.x = getInt("Screen", "window_posx", App.window.position.x, App.desktop_resolution.x, App.desktop_resolution.z);
 		App.window.position.y = getInt("Screen", "window_posy", App.window.position.y, App.desktop_resolution.y, App.desktop_resolution.w);
@@ -370,6 +380,13 @@ void loadIni()
 
 		App.dlls_early = getString("Other", "load_dlls_early", App.dlls_early);
 		App.dlls_late = getString("Other", "load_dlls_late", App.dlls_late);
+	}
+
+	if (helpers::fileExists(App.d2expres_ini_file)) {
+		App.d2expres_size_lowres.x = GetPrivateProfileIntA("ModeResolution", "X1", 1024, App.d2expres_ini_file.c_str());
+		App.d2expres_size_lowres.y = GetPrivateProfileIntA("ModeResolution", "Y1", 768, App.d2expres_ini_file.c_str());
+		App.d2expres_size_hires.x = GetPrivateProfileIntA("ModeResolution", "X2", 1280, App.d2expres_ini_file.c_str());
+		App.d2expres_size_hires.y = GetPrivateProfileIntA("ModeResolution", "Y2", 768, App.d2expres_ini_file.c_str());
 	}
 
 	// clang-format off

@@ -17,16 +17,19 @@
 */
 
 #include "pch.h"
+#include "DllNotify.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call) {
 		case DLL_PROCESS_ATTACH: {
+			d2gl::DllNotify::Init_Dllnotify();
 			//d2gl::App.api = d2gl::Api::Glide;
 			d2gl::dllAttach(hModule);
 			break;
 		}
 		case DLL_PROCESS_DETACH: {
+			d2gl::DllNotify::Uninit_Dllnotify();
 			d2gl::dllDetach();
 			break;
 		}

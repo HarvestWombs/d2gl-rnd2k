@@ -162,6 +162,11 @@ struct D2GLApp {
 		Range<int> height = { 140, 100, 200 };
 	} mini_map;
 
+	bool is_d2expres = false;
+	std::string d2expres_ini_file = "d2expres.ini";
+	glm::uvec2 d2expres_size_lowres = { 0, 0 };
+	glm::uvec2 d2expres_size_hires = { 0, 0 };
+
 #ifdef _DEBUG
 	int var[10] = { 0 };
 #endif

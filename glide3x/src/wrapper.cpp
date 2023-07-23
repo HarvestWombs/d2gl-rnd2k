@@ -282,14 +282,23 @@ GrContext_t Wrapper::grSstWinOpen(FxU32 hwnd, GrScreenResolution_t screen_resolu
 	}
 
 	glm::uvec2 old_size = App.game.size;
-	if (screen_resolution == GR_RESOLUTION_640x480)
-		App.game.size = { 640, 480 };
-	else if (screen_resolution == GR_RESOLUTION_800x600)
-		App.game.size = { 800, 600 };
-	else if (screen_resolution == GR_RESOLUTION_1024x768)
-		App.game.size = { 1024, 768 };
-	else {
-		if (App.game.custom_size.x != 0) {
+	if (screen_resolution == GR_RESOLUTION_640x480) {
+		if (App.is_d2expres)
+			App.game.size = { App.d2expres_size_lowres.x, App.d2expres_size_lowres.y };
+		else
+			App.game.size = { 640, 480 };
+	} else if (screen_resolution == GR_RESOLUTION_800x600) {
+		if (App.is_d2expres)
+			App.game.size = { App.d2expres_size_hires.x, App.d2expres_size_hires.y };
+		else
+			App.game.size = { 800, 600 };
+	} else if (screen_resolution == GR_RESOLUTION_1024x768) {
+		if (App.is_d2expres)
+			App.game.size = { App.d2expres_size_hires.x, App.d2expres_size_hires.y };
+		else
+			App.game.size = { 1024, 768 };
+	} else {
+		if (App.game.custom_size.x != 0 || App.game.custom_size.y != 0) {
 			App.game.size = App.game.custom_size;
 			trace_log("Applying custom size.");
 		} else
