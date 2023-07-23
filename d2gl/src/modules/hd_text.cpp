@@ -171,7 +171,7 @@ bool HDText::drawText(const wchar_t* str, int x, int y, uint32_t color, uint32_t
 	if (App.game.screen == GameScreen::Menu) {
 		if (m_text_size == 1) {
 			if (x == 113 || x == 385) {
-				pos.y += isVer(V_109d) ? -5.0f : 8.0f;
+				pos.y += isVerMax(V_109d) ? -5.0f : 8.0f;
 				if (color == 0 || color == 2 || y == 155 || y == 248 || y == 341 || y == 434)
 					font = getFont(color == 0 ? 17 : 6);
 			}

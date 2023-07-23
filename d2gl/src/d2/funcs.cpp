@@ -85,27 +85,27 @@ UnitAny* findUnit(uint32_t type_id)
 
 DWORD getUnitID(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.dwUnitId : unit->v110.dwUnitId;
+	return isVerMax(V_109d) ? unit->v109.dwUnitId : unit->v110.dwUnitId;
 }
 
 DWORD getUnitFlag(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.dwFlags : unit->v110.dwFlags;
+	return isVerMax(V_109d) ? unit->v109.dwFlags : unit->v110.dwFlags;
 }
 
 Path* getUnitPath(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.pPath : unit->v110.pPath;
+	return isVerMax(V_109d) ? unit->v109.pPath : unit->v110.pPath;
 }
 
 StaticPath* getUnitStaticPath(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.pStaticPath : unit->v110.pStaticPath;
+	return isVerMax(V_109d) ? unit->v109.pStaticPath : unit->v110.pStaticPath;
 }
 
 uint32_t getUnitStat(UnitAny* unit, uint32_t stat)
 {
-	return isVer(V_109d) ? ((getUnitStat109d_t)getUnitStat_Fn)(unit, stat) : getUnitStat_Fn(unit, stat, 0);
+	return isVerMax(V_109d) ? ((getUnitStat109d_t)getUnitStat_Fn)(unit, stat) : getUnitStat_Fn(unit, stat, 0);
 }
 
 UnitAny* getSelectedItem()
@@ -120,12 +120,12 @@ bool isUnitDead(UnitAny* unit)
 
 char* getPlayerName(UnitAny* unit)
 {
-	return (char*)(isVer(V_109d) ? unit->v109.pPlayerData->szName : unit->v110.pPlayerData->szName);
+	return (char*)(isVerMax(V_109d) ? unit->v109.pPlayerData->szName : unit->v110.pPlayerData->szName);
 }
 
 MonsterType getMonsterType(UnitAny* unit)
 {
-	if (isVer(V_109d)) {
+	if (isVerMax(V_109d)) {
 		if (unit->v109.pMonsterData->fChamp)
 			return MonsterType::Champion;
 		else if (unit->v109.pMonsterData->fBoss)
@@ -144,12 +144,12 @@ MonsterType getMonsterType(UnitAny* unit)
 
 wchar_t* getMonsterName(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.pMonsterData->wName : unit->v110.pMonsterData->wName;
+	return isVerMax(V_109d) ? unit->v109.pMonsterData->wName : unit->v110.pMonsterData->wName;
 }
 
 bool isMercUnit(UnitAny* unit)
 {
-	if (unit->dwType != d2::UnitType::Monster || isVer(V_109d))
+	if (unit->dwType != d2::UnitType::Monster || isVerMax(V_109d))
 		return false;
 
 	return unit->v110.dwClassId == MERC_A1 || unit->v110.dwClassId == MERC_A2 || unit->v110.dwClassId == MERC_A3 || unit->v110.dwClassId == MERC_A4 || unit->v110.dwClassId == MERC_A5;
@@ -157,12 +157,12 @@ bool isMercUnit(UnitAny* unit)
 
 ItemQuality getItemQuality(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.pItemData->dwQuality : unit->v110.pItemData->dwQuality;
+	return isVerMax(V_109d) ? unit->v109.pItemData->dwQuality : unit->v110.pItemData->dwQuality;
 }
 
 BYTE getItemLocation(UnitAny* unit)
 {
-	return isVer(V_109d) ? unit->v109.pItemData->ItemLocation : unit->v110.pItemData->ItemLocation;
+	return isVerMax(V_109d) ? unit->v109.pItemData->ItemLocation : unit->v110.pItemData->ItemLocation;
 }
 
 CellFile* getCellFile(CellContext* cell)

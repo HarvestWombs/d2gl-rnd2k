@@ -28,6 +28,7 @@ enum class Api {
 enum class Version {
 	Null = -1,
 	Unknown,
+	V_109b,
 	V_109d,
 	V_110,
 	V_111,

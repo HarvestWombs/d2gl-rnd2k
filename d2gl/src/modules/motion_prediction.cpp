@@ -58,7 +58,7 @@ void MotionPrediction::toggle(bool active)
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
 		DetourAttach(&(PVOID&)d2::drawUnit, isVerMax(V_110) || isVer(V_114d) ? d2::drawUnitStubESI : d2::drawUnitStubStack);
-		if (isVerNot(V_109d) && isVerNot(V_110))
+		if (isVerMin(V_111))
 			DetourAttach(&(PVOID&)d2::drawMissile, d2::drawMissileStub);
 		DetourAttach(&(PVOID&)d2::drawWeatherParticles, isVer(V_114d) ? d2::drawWeatherParticlesStub114d : d2::drawWeatherParticlesStub);
 		DetourTransactionCommit();
@@ -69,7 +69,7 @@ void MotionPrediction::toggle(bool active)
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
 		DetourDetach(&(PVOID&)d2::drawUnit, isVerMax(V_110) || isVer(V_114d) ? d2::drawUnitStubESI : d2::drawUnitStubStack);
-		if (isVerNot(V_109d) && isVerNot(V_110))
+		if (isVerMin(V_111))
 			DetourDetach(&(PVOID&)d2::drawMissile, d2::drawMissileStub);
 		DetourDetach(&(PVOID&)d2::drawWeatherParticles, isVer(V_114d) ? d2::drawWeatherParticlesStub114d : d2::drawWeatherParticlesStub);
 		DetourTransactionCommit();
@@ -280,6 +280,7 @@ void MotionPrediction::altItemsTextMotion()
 	static int* y2 = nullptr;
 
 	switch (helpers::getVersion()) {
+		case Version::V_109b:
 		case Version::V_109d:
 			x1 = (int*)((uintptr_t)d2::alt_item_pos + 0x0C);
 			x2 = (int*)((uintptr_t)d2::alt_item_pos + 0x20);

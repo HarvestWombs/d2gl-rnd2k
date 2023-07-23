@@ -408,7 +408,7 @@ Version getVersion()
 
 	int minimum_match_dll = 7;
 
-	//if (count_109b >= minimum_match_dll) version = Version::V_109b;
+	if (count_109b >= minimum_match_dll) version = Version::V_109b;
 	if (count_109d >= minimum_match_dll) version = Version::V_109d;
 	if (count_110f >= minimum_match_dll) version = Version::V_110;
 	if (count_111 >= minimum_match_dll) version = Version::V_111;
@@ -446,7 +446,8 @@ Version getVersion()
 	ss << ((ver_info->dwFileVersionLS >> 16) & 0xffff) << ".";
 	ss << ((ver_info->dwFileVersionLS >>  0) & 0xffff);
 
-	     if (ss.str() == "1.0.9.22" ) version = Version::V_109d;
+	if (ss.str() == "1.0.9.20" ) version = Version::V_109b;
+	else if (ss.str() == "1.0.9.22" ) version = Version::V_109d;
 	else if (ss.str() == "1.0.10.39") version = Version::V_110;
 	else if (ss.str() == "1.0.11.45") version = Version::V_111;
 	else if (ss.str() == "1.0.11.46") version = Version::V_111b;
@@ -463,6 +464,7 @@ std::string getVersionString()
 {
 	// clang-format off
 	switch (getVersion()) {
+		case Version::V_109b: return "1.09b";
 		case Version::V_109d: return "1.09d";
 		case Version::V_110:  return "1.10";
 		case Version::V_111:  return "1.11";
@@ -477,11 +479,12 @@ std::string getVersionString()
 	return "Unknown";
 }
 
-Offset getVersionOffset(OffsetDefault def_offset, Offset v109d, Offset v110, Offset v111, Offset v111b, Offset v112, Offset v113c, Offset v113d, Offset v114d)
+Offset getVersionOffset(OffsetDefault def_offset, Offset v109b, Offset v109d, Offset v110, Offset v111, Offset v111b, Offset v112, Offset v113c, Offset v113d, Offset v114d)
 {
 	Offset offset;
 	// clang-format off
 	switch (getVersion()) {
+		case Version::V_109b: offset = v109b; break;
 		case Version::V_109d: offset = v109d; break;
 		case Version::V_110:  offset = v110;  break;
 		case Version::V_111:  offset = v111;  break;
